@@ -13,7 +13,7 @@ int[MAX_DIGITS] -> last digit
 
 */
 
-#include "stdafx.h"
+#include "stdafx.h" //<- need to get rid of this for GNU Make
 #include <iostream>
 #include <string>
 using namespace std;
@@ -26,6 +26,8 @@ void readBig(int num[]); //parse a big number of up to MAX_DIGITS digits and sto
 
 int main()
 {
+	string dummy; //for use in a portable windows-like exit prompt
+
 	int oneBigNumber[MAX_DIGITS];
 	int anotherBigNumber[MAX_DIGITS];
 	int sumOfBigNumbers[MAX_DIGITS];
@@ -44,15 +46,17 @@ int main()
 	addBig(oneBigNumber, anotherBigNumber, sumOfBigNumbers);
 	printBig(sumOfBigNumbers);
 
+	cout << "\nHit Enter to exit...\n"; //prompt user for exit confirmation
+	cin.ignore();
+	getline(cin, dummy);
 
-
-	return 0;
+	return 0; //end without error
 }
 
 void addBig(int first[], int second[], int sum[])
 {
 	int i = 0;
-	int j = 1;
+	int j = 0;
 
 	while(i < MAX_DIGITS) //Get the sum of each corresponding digit
 	{
@@ -60,12 +64,13 @@ void addBig(int first[], int second[], int sum[])
 		i++;
 	}
 
-	while(j < MAX_DIGITS ) //thankfully, largest sum of any two digits and a carry is 19, so we don't need to worry about cases where sum[j] % 10 > 1
+	while(j < MAX_DIGITS-1 ) //thankfully, largest sum of any two digits and a carry is 19, so we don't need to worry about cases where sum[j] / 10 > 1 (rounded down, of course, these are ints after all)
 	{
-		if(sum[j-1] > 9) //if we need to carry from this digit...
+		
+		if(sum[j] > 9) //if we need to carry from digit in sum[j]...
 		{
-			sum[j]++; //increase the following digit by one
-			sum[j-1] -= 10; //subtract ten from this digit
+			sum[j+1]++; //increase the following digit by one
+			sum[j] -= 10; //subtract ten from this digit
 		}
 
 		j++;
@@ -74,16 +79,25 @@ void addBig(int first[], int second[], int sum[])
 
 void printBig(int num[])
 {
-	int i = MAX_DIGITS-1;
+	int periodicComma = 0; //will trigger printing a comma
+	int i = MAX_DIGITS-1; //start from the begining of the array
 
 	while(num[i] == 0) //proceed until leading 0's are skipped
 	{
 		i--;
 	}
 
-	while(i >= 0)
+	periodicComma = i % 3; //every 3 digits needs a comma, we can figure out when to print one going backwards by mod(i,3), which gives us the number of digits left to print before needing a comma
+
+	while(i >= 0) //for the rest of the significant digits...
 	{
-		cout << num[i];
+		cout << num[i]; //...print in proper order
+		if (periodicComma == 0 && i != 0) //print comma
+		{
+			cout << ',';
+			periodicComma = 3;
+		}
+		periodicComma--;
 		i--;
 	}
 
@@ -95,10 +109,10 @@ void readBig(int num[])
 
 	string numString; //string to store user input
 	cin >> numString; //get the user input
-	int len = numString.length();
+	int len = numString.length(); //I hate calling the length variable repeadedly
 	
-	if(len > 100) //check if the input is too big
-		len = 100;
+	if(len > MAX_DIGITS) //check if the input is too big
+		len = MAX_DIGITS; //and if so, set it to max
 
 	while(i > len-1) //this will set all leading digits to 0...
 	{
@@ -106,9 +120,9 @@ void readBig(int num[])
 		i--; //... and move down the array until we hit where the number begins
 	}
 
-	while(i >= 0)
+	while(i >= 0) //then, we parse each digit in the string
 	{
-		num[i] = numString.at(len - 1 - i) - 48; //get the number from the corresponding ASCII character in the string
+		num[i] = numString.at(len - 1 - i) - 48; //get the number from the corresponding ASCII character in the string. ASCII ARITH LIKE THIS IS VERY PRONE TO ERRORS 
 		i--;
 	}
 }
