@@ -34,21 +34,20 @@ int main()
 
 	cout << "Please input a big number: ";
 	readBig(oneBigNumber);
-	printBig(oneBigNumber);
 	cout << endl << endl;
 
 	cout << "Please input another big number: ";
 	readBig(anotherBigNumber);
-	printBig(anotherBigNumber);
 	cout << endl << endl;
 
 	cout << "Thier sum is: ";
 	addBig(oneBigNumber, anotherBigNumber, sumOfBigNumbers);
 	printBig(sumOfBigNumbers);
+	cout << endl << endl;
 
-	cout << "\nHit Enter to exit...\n"; //prompt user for exit confirmation
+	/*cout << "\nHit Enter to exit...\n"; //prompt user for exit confirmation
 	cin.ignore();
-	getline(cin, dummy);
+	getline(cin, dummy);*/
 
 	return 0; //end without error
 }
@@ -64,7 +63,7 @@ void addBig(int first[], int second[], int sum[])
 		i++;
 	}
 
-	while(j < MAX_DIGITS-1 ) //thankfully, largest sum of any two digits and a carry is 19, so we don't need to worry about cases where sum[j] / 10 > 1 (rounded down, of course, these are ints after all)
+	while(j < MAX_DIGITS-1 ) //thankfully, largest sum of any two digits and a carry is 19, so no complex multiple carries (but how crazy would that be huh?)
 	{
 		
 		if(sum[j] > 9) //if we need to carry from digit in sum[j]...
@@ -79,25 +78,27 @@ void addBig(int first[], int second[], int sum[])
 
 void printBig(int num[])
 {
-	int periodicComma = 0; //will trigger printing a comma
+	//int periodicComma = 0; //will trigger printing a comma
 	int i = MAX_DIGITS-1; //start from the begining of the array
 
-	while(num[i] == 0) //proceed until leading 0's are skipped
+	while(num[i] == 0 && i != 0) //proceed until leading 0's are skipped, until last digit, which may be a zero, in which case it is necessary to print
 	{
 		i--;
 	}
 
-	periodicComma = i % 3; //every 3 digits needs a comma, we can figure out when to print one going backwards by mod(i,3), which gives us the number of digits left to print before needing a comma
+	//periodicComma = i % 3; //every 3 digits needs a comma, we can figure out when to print one going backwards by mod(i,3), which gives us the number of digits left to print before needing the first comma
 
 	while(i >= 0) //for the rest of the significant digits...
 	{
 		cout << num[i]; //...print in proper order
-		if (periodicComma == 0 && i != 0) //print comma
+
+		/*if (periodicComma == 0 && i != 0) //print comma only when needed (remove this block if necessary)
 		{
 			cout << ',';
-			periodicComma = 3;
+			periodicComma = 3; //after the first comma, we can be sure that our counter starts at 3
 		}
-		periodicComma--;
+		periodicComma--;*/
+
 		i--;
 	}
 
@@ -109,20 +110,17 @@ void readBig(int num[])
 
 	string numString; //string to store user input
 	cin >> numString; //get the user input
-	int len = numString.length(); //I hate calling the length variable repeadedly
-	
-	if(len > MAX_DIGITS) //check if the input is too big
-		len = MAX_DIGITS; //and if so, set it to max
+	long numberStartPosition = numString.length() - 1; //index for the start of the number is the same as the length of the number minus 1
 
-	while(i > len-1) //this will set all leading digits to 0...
+	while(i > numberStartPosition) //this will set all leading digits to 0...
 	{
 		num[i] = 0;
-		i--; //... and move down the array until we hit where the number begins
+		i--; //... moving down the array until we hit where the number begins; this will leave i equaling numberStartPosition
 	}
 
 	while(i >= 0) //then, we parse each digit in the string
 	{
-		num[i] = numString.at(len - 1 - i) - 48; //get the number from the corresponding ASCII character in the string. ASCII ARITH LIKE THIS IS VERY PRONE TO ERRORS 
+		num[i] = numString.at(numberStartPosition - i) - 48; //get the number from the corresponding ASCII character in the string, parsing backwards. ASCII ARITH LIKE THIS IS VERY PRONE TO ERRORS 
 		i--;
 	}
 }
