@@ -1,4 +1,5 @@
 /* Authored by Christopher Madrigal
+20 January 2017
 
 Big Number layout
 
@@ -21,25 +22,26 @@ BigNumber BigNumber::addBig(BigNumber otherNumber) //returns a BigNumber from th
 {
 	int i = 0;
 	int j = 0;
+	BigNumber sum;
 
 	while(i <= MAX_DIGITS-1) //Get the sum of each corresponding digit
 	{
-		otherNumber.value[i] = value[i] + value[i]; //set sum
+		sum.value[i] = value[i] + otherNumber.value[i]; //set sum
 		i++;
 	}
 
 	while(j <= MAX_DIGITS-2 ) //conduct carry
 	{
 		
-		if(otherNumber.value[j] > 9) //if we need to carry from digit in sum.value[j]...
+		if(sum.value[j] > 9) //if we need to carry from digit in sum.value[j]...
 		{
-			otherNumber.value[j+1]++; //increase the following digit sum.value[j+1] by one
-			otherNumber.value[j] -= 10; //subtract ten from sum.value[j]
+			sum.value[j+1]++; //increase the following digit sum.value[j+1] by one
+			sum.value[j] -= 10; //subtract ten from sum.value[j]
 		}
 		j++;
 	}
 
-	return otherNumber; //returns the sum object
+	return sum; //returns the sum object
 }
 
 void BigNumber::printBig() //prints the value of this BigNumber

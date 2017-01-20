@@ -1,4 +1,5 @@
 /* Authored by Christopher Madrigal
+20 January 2017
 
 Big Number layout
 
@@ -12,7 +13,7 @@ int[MAX_DIGITS-1] -> last digit
 
 */
 
-static const int MAX_DIGITS = 100;
+const int MAX_DIGITS = 100;
 
 class BigNumber
 {

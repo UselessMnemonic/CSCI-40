@@ -49,3 +49,7 @@ Temporary Items
 *.tlog
 *.exe
 *.exe
+BigNumbers/Debug/BigNumbers.lastbuildstate
+*.log
+BigNumbers/Debug/BigNumbers.log
+*.log
