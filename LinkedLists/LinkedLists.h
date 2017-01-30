@@ -2,11 +2,13 @@
 // Header file ListP.h for the ADT list
 // Pointer-based implementation
 // *********************************************************
-template <typename T> class List
+typedef int ListType;
+
+class List
     {
     public:
         List();                     // default constructor
-        List(const List<T> & L);    //copy Constructor
+        List(const List& L);    //copy Constructor
         ~List();                //Destructor
 
         bool isEmpty() const;
@@ -21,7 +23,7 @@ template <typename T> class List
         // Postcondition: Returns the number of items
         // that are currently in the list.
 
-        void insert(int index, T newItem, bool & success);
+        void insert(int index, ListType newItem, bool &success);
         // Inserts an item into the list at position index.
         // Precondition: index indicates the position at which
         // the item should be inserted in the list.
@@ -32,7 +34,7 @@ template <typename T> class List
         // Note: Insertion will not be successful if
         // index < 1 or index > getLength()+1.
 
-        void remove(int index, bool & success);
+        void remove(int index, bool &success);
         // Deletes an item from the list at a given position.
         // Precondition: index indicates where the deletion
         // should occur.
@@ -41,7 +43,7 @@ template <typename T> class List
         // deleted, other items are renumbered accordingly,
         // and success is true; otherwise success is false.
 
-        void retrieve(int index, T &dataItem, bool & success) const;
+        void retrieve(int index, ListType &dataItem, bool& success) const;
         // Retrieves a list item by position.
         // Precondition: index is the number of the item to
         // be retrieved.
@@ -52,14 +54,14 @@ template <typename T> class List
     private:
         struct ListNode // a node in the list
 		{
-			T item; // a data item on the list
-			ListNode *next; // pointer to next node
+			ListType item; // a data item on the list
+			ListNode* next; // pointer to next node
 		}; // end struct
 
         int size; // number of items in list
-        ListNode *head; // pointer to linked list of items
+        ListNode* head; // pointer to linked list of items
 
-        ListNode *find(int index) const;
+        ListNode* find(int index) const;
         // Returns a pointer to the index-th node
         // in the linked list.
     };
