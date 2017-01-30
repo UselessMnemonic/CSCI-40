@@ -6,7 +6,7 @@ template <typename T> class List
     {
     public:
         List();                     // default constructor
-        List(const List & L);    //copy Constructor
+        List(const List<T> & L);    //copy Constructor
         ~List();                //Destructor
 
         bool isEmpty() const;
@@ -21,7 +21,7 @@ template <typename T> class List
         // Postcondition: Returns the number of items
         // that are currently in the list.
 
-        void insert(int index, ListItemType newItem,bool & success);
+        void insert(int index, T newItem, bool & success);
         // Inserts an item into the list at position index.
         // Precondition: index indicates the position at which
         // the item should be inserted in the list.
@@ -41,7 +41,7 @@ template <typename T> class List
         // deleted, other items are renumbered accordingly,
         // and success is true; otherwise success is false.
 
-        void retrieve(int index, ListItemType & dataItem, bool & success) const;
+        void retrieve(int index, T &dataItem, bool & success) const;
         // Retrieves a list item by position.
         // Precondition: index is the number of the item to
         // be retrieved.
@@ -50,7 +50,7 @@ template <typename T> class List
         // success is true; otherwise success is false.
 
     private:
-        struct ListNode // a node on the list
+        struct ListNode // a node in the list
 		{
 			T item; // a data item on the list
 			ListNode *next; // pointer to next node

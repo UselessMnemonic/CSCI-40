@@ -1,169 +1,110 @@
 #include "LinkedLists.h"
 
-/*
-void fillNode(node* entry, int times, int data[])
-{
-	node* current;
-	current = entry;
-
-	for(int x = 1; x <= times && current != NULL; x++)
-	{
-		current->data = data[x-1];
-		current = current->next;
-	}
-}
-
-node* createList(int size)
-{
-	node* list;
-	node* current;
-
-	list = new node;
-	list->next = NULL;
-
-	current = list;
-
-	for(int x = 1; x < size; x++)
-	{
-		current->next = new node;
-		current = current->next;
-		current->next = NULL;
-	}
-
-	return list;
-}
-
-void deleteList(node* entry)
-{
-	node* current = entry;
-
-	int numberOfEntries = 0;
-
-	while(current != NULL && current->next != NULL)
-	{
-		current = current->next;
-		numberOfEntries++;
-	}
-
-	while(numberOfEntries > 0)
-	{
-		current = entry;
-
-		for(int x = 1; x < numberOfEntries-1; x++)
-		{
-			current = current->next;
-		}
-
-		delete current;
-		numberOfEntries--;
-	}
-}
-
-void printNode(node* entry)
-{
-	node* current;
-	current = entry;
-
-	int x = 1;
-
-	while(current != NULL)
-	{
-		cout<<"---------"<< endl;
-		cout<<"|Node " << setw(2) << x << '|' << endl;
-		cout<<'|' << setw(7) << current->data << '|' << endl;
-		cout<<"---------"<< endl;
-		cout << "|\nV" << endl;
-		current = current->next;
-		x++;
-	}
-
-	cout << "0" << endl;
-}
-
-int main()
-{
-	node* first = createList(10);
-	int data[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	fillNode(first, 10, data);
-	printNode(first);
-	deleteList(first);
-	first = NULL;
-	return 0;
-}
-*/
-
-template <typename T> List::List()
+template <typename T> List::List() //Constructs a new List object with a NULL head Node.
 {
 	size = 0;
 	head = NULL;
 }
 
-template <typename T> List::~List()
+template <typename T> List::~List() //Deconstructs the object.
 {
 	bool success; //needed to pass to remove
-	while(!isEmpty()) //while the list is not empty, remove item at index 1
-		remove(1, &success);
-}
-
-template <typename T> List::List(const List<T> &otherList)
-{
-	size = otherList.size;
-
-	if(otherList.head == NULL)
-		head = NULL;
-
-	else
+	while (!isEmpty()) //while the list is not empty, remove item at index 1
 	{
-		head = new ListNode;
-		head->item = otherList->item;
-
-		ListNode *currentNode = head;
-
-		for(ListNode *nodeInOtherList = otherList.head->next; nodeInOtherList != NULL; nodeInOtherList = nodeInOtherList->next)
-		{
-			currentNode->next = new ListNode;
-			currentNode->next->item = nodeInOtherList->item;
-			currentNode = currentNode->next;
-		}
-
-		currentNode->next = NULL;
+		remove(1, &success);
 	}
 }
 
-template <typename T> bool List::isEmpty() const
+template <typename T> List::List(const List<T> &otherList) //Copy Constructor; copies all elements in the previous list
+{
+	size = otherList.size; //gets size
+
+	if (otherList.head == NULL) //If the other list has a null head Node, set this one's to NULL
+	{
+		head = NULL;
+	}
+	else
+	{
+		head = new ListNode; //...otherwise, set head to a new ListNode
+		head->item = otherList.head->item; //copy the otherList's head item into ours
+
+		ListNode *currentNode = head; //create a node to iterate over the rest of the nodes in otherList
+
+		for (ListNode *nodeInOtherList = otherList.head->next; nodeInOtherList != NULL; nodeInOtherList = nodeInOtherList->next) //for every following node in otherList...
+		{
+			currentNode->next = new ListNode; //point currentNode.next to a new Node
+			currentNode->next->item = nodeInOtherList->item; //copy the corresponding item
+			currentNode = currentNode->next; //advance currentNode into the new Node
+		}
+
+		currentNode->next = NULL; //set the currentNode.next pointer to NULL
+	}
+}
+
+template <typename T> bool List::isEmpty() const //returns whether or not the list length is 0
 {
 	return (size == 0);
 }
 
-template <typename T> int List::getLength() const
+template <typename T> int List::getLength() const //returns the list's length
 {
 	return size;
 }
 
-template <typename T> void List::insert(int index, T newItem,bool &success)
+template <typename T> void List::insert(int index, T newItem, bool &success) //insert a valid node into the list at the specified index
 {
-	size++;
-	int newLength = size + 1;
+	int newLength = getLength() + 1; //get the size of the new list
 
-	success = (index >= 1 || index <= size);
+	success = (index >= 1 || index <= size); //validate that our index will be between 1 and newLength, inclusive
 
-	if(success)
+	if(success)//if we can insert into our list...
 	{
-		ListNode *beforeTargetNode = find(size-1); //get last node
-		beforeTargetNode->next = new ListNode; //set the node pointed to by the last node to a new ListNode
-		beforeTargetNode->next->item = newItem; //set the new node's item to newItem
-		beforeTargetNode->next->next = NULL; //set the node pointed to by the new node to NULL
-	}
-	else
-	{
+		size = newLength;
+		ListNode newNode = new ListNode;
+		newNode->item = newItem;
 
+		if (index == 1)
+		{
+			newNode->next = head;
+			head = newNode;
+		}
+		else
+		{
+			ListNode *beforeTarget = find(index - 1);
+			newNode->next = beforeTarget->next;
+			beforeTarget->next = newNode;
+		}
 	}
 }
 
 template <typename T> void List::remove(int index, bool &success)
 {
+	bool success = index >= 1 && index <= getLength();
 
-}
+	if (success)
+	{
+		--size;
+		if (Position == 1)
+		{ // delete the first node from the list
+			Cur = head; // save pointer to node
+			head = head->next;
+		}
+
+		else
+		{
+			Prev = find(Position - 1);
+			// delete the node after the
+			// node to which Prev points
+			Cur = Prev->next; // save pointer to node
+			Prev->next = Cur->next;
+		} // end if
+
+		  // return node to system
+		Cur->next = NULL;
+		delete Cur;
+		Cur = NULL;
+	} // end if
+} // end remove
 
 template <typename T> void List::retrieve(int index, T &dataItem, bool &success) const
 {
