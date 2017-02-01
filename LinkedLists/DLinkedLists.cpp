@@ -68,11 +68,20 @@ void DList::insert(int index, ListType newItem, bool &success) //insert a valid 
 		newNode = new DListNode; //create a new Node
 		newNode->item = newItem; //give our new Node the item
 		
-		targetNode = find(index); //grab our target
-		newNode->next = targetNode->next; //point our newNode to the node after our target
-		targetNode->next->prev = newNode; //retro-point the node after our target to the new node
-		targetNode->next = newNode; //point our target to our new node
-		newNode->prev = targetNode; //retro-point our new new node to the target
+		if(index == 1 && head == NULL)
+		{
+				head = newNode;
+				head->next = head;
+				head->prev = head;
+		}
+		else
+		{
+			targetNode = find(index); //grab our target
+			newNode->next = targetNode->next; //point our newNode to the node after our target
+			targetNode->next->prev = newNode; //retro-point the node after our target to the new node
+			targetNode->next = newNode; //point our target to our new node
+			newNode->prev = targetNode; //retro-point our new new node to the target
+		}
 	}
 }
 
@@ -84,18 +93,27 @@ void DList::remove(int index, bool &success)
 
 	if (success)
 	{
-		--size;
-		targetNode = find(index); //get the target node
-		beforeTarget = targetNode->prev; //get the node before our target
-		beforeTarget->next = targetNode->next;  //link the nodes before and after our target
-		targetNode->next->prev = beforeTarget;
-		  // return node to system
-		targetNode->next = NULL;
-		targetNode->prev = NULL;
-		delete targetNode;
-		targetNode = NULL;
-	} // end if
-} // end remove
+		if(index == 1)
+		{
+			delete head;
+			head == NULL;
+		}
+		else
+		{
+			--size;
+			targetNode = find(index); //get the target node
+			beforeTarget = targetNode->prev; //get the node before our target
+			//link the nodes before and after our target
+			beforeTarget->next = targetNode->next;
+			targetNode->next->prev = beforeTarget; 
+			// return node to system
+			targetNode->next = NULL;
+			targetNode->prev = NULL;
+			delete targetNode;
+			targetNode = NULL;
+		}
+	}
+}
 
 void DList::retrieve(int index, ListType &dataItem, bool &success) const
 {

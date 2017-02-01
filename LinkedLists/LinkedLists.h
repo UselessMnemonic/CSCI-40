@@ -23,7 +23,7 @@ class List
         // Postcondition: Returns the number of items
         // that are currently in the list.
 
-        void insert(int index, ListType newItem, bool &success);
+        void insert(int index, ListType& newItem, bool &success);
         // Inserts an item into the list at position index.
         // Precondition: index indicates the position at which
         // the item should be inserted in the list.
@@ -43,7 +43,7 @@ class List
         // deleted, other items are renumbered accordingly,
         // and success is true; otherwise success is false.
 
-        void retrieve(int index, ListType &dataItem, bool& success) const;
+        void retrieve(int index, ListType& dataItem, bool& success) const;
         // Retrieves a list item by position.
         // Precondition: index is the number of the item to
         // be retrieved.
@@ -59,7 +59,7 @@ class List
 		}; // end struct
 
         int size; // number of items in list
-        ListNode* head; // pointer to linked list of items
+		ListNode* head; // pointer to linked list of items
 
         ListNode* find(int index) const;
         // Returns a pointer to the index-th node

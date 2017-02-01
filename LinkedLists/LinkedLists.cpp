@@ -16,10 +16,10 @@ List::~List() //Deconstructs the object.
 	}
 }
 
-List::List(const List &otherList) //Copy Constructor; copies all elements in the previous list
+List::List(const List& otherList) //Copy Constructor; copies all elements in the previous list
 {
 	size = otherList.size; //gets size
-	ListNode *currentNode;
+	ListNode* currentNode;
 
 	if (otherList.head == NULL) //If the other list has a null head Node, set this one's to NULL
 	{
@@ -53,7 +53,7 @@ int List::getLength() const //returns the list's length
 	return size;
 }
 
-void List::insert(int index, ListType newItem, bool &success) //insert a valid node into the list at the specified index
+void List::insert(int index, ListType& newItem, bool &success) //insert a valid node into the list at the specified index
 {
 	int newSize = getLength() + 1; //get the size of the new list
 	ListNode* newNode;
@@ -112,7 +112,7 @@ void List::remove(int index, bool &success)
 	} // end if
 } // end remove
 
-void List::retrieve(int index, ListType &dataItem, bool &success) const
+void List::retrieve(int index, ListType& dataItem, bool &success) const
 {
 	success = index >= 1 && index <= getLength();
 	if(success)
