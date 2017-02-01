@@ -96,7 +96,7 @@ void DList::remove(int index, bool &success)
 		if(index == 1)
 		{
 			delete head;
-			head == NULL;
+			head = NULL;
 		}
 		else
 		{

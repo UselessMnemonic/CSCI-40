@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="DLinkedLists.cpp" />
     <ClCompile Include="LinkedLists.cpp" />
+    <ClCompile Include="LinkedListsTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DLinkedLists.h" />
