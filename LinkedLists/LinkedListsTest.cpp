@@ -1,14 +1,14 @@
 // Test program for the ADT list
 #include <iostream>
 using namespace std;
-#include "LinkedLists.h"
+#include "DLinkedLists.h"
 int main()
     {
-    int item;
+    ListItemType item;
     bool Success,done;
     char choice;
     int where;
-    List L;
+    DList L;
     done=false;
     while (!done)
         {

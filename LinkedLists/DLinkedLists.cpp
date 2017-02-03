@@ -1,5 +1,7 @@
 #include "DLinkedLists.h"
+#include <iostream>
 #include <stddef.h>
+using namespace std;
 
 DList::DList() //Constructs a new DList object with a NULL head Node.
 {
@@ -54,13 +56,13 @@ int DList::getLength() const //returns the DList's length
 	return size;
 }
 
-void DList::insert(int index, ListType newItem, bool &success) //insert a valid node into the DList at the specified index
+void DList::insert(int index, ListItemType newItem, bool &success) //insert a valid node into the DList at the specified index
 {
 	int newSize = getLength() + 1; //get the size of the new DList
 	DListNode* newNode;
 	DListNode* targetNode;
 
-	success = (index >= 1 || index <= newSize); //validate that our index will be between 1 and newLength, inclusive
+	success = (index >= 1 && index <= newSize); //validate that our index will be between 1 and newLength, inclusive
 
 	if(success)//if we can insert into our DList...
 	{
@@ -68,17 +70,30 @@ void DList::insert(int index, ListType newItem, bool &success) //insert a valid 
 		newNode = new DListNode; //create a new Node
 		newNode->item = newItem; //give our new Node the item
 		
-		if(index == 1 && head == NULL)
+		if(index == 1)
 		{
+			if(head == NULL) //create the head Node and point it to NULLs
+			{
 				head = newNode;
-				head->next = head;
-				head->prev = head;
+				head->next = NULL;
+				head->prev = NULL;
+			}
+			else //place our new node as head
+			{
+				newNode->next = head;
+				newNode->prev = NULL;
+				head->prev = newNode;
+				head = newNode;
+			}
 		}
 		else
 		{
 			targetNode = find(index); //grab our target
 			newNode->next = targetNode->next; //point our newNode to the node after our target
-			targetNode->next->prev = newNode; //retro-point the node after our target to the new node
+
+			if(targetNode->next != NULL)
+				targetNode->next->prev = newNode; //retro-point the node after our target to the new node, if the former exists
+
 			targetNode->next = newNode; //point our target to our new node
 			newNode->prev = targetNode; //retro-point our new new node to the target
 		}
@@ -89,24 +104,35 @@ void DList::remove(int index, bool &success)
 {
 	success = index >= 1 && index <= getLength();
 	DListNode* targetNode;
-	DListNode *beforeTarget;
+	DListNode* beforeTarget;
+	DListNode* afterTarget;
 
 	if (success)
 	{
+		--size;
+
 		if(index == 1)
 		{
+			afterTarget = head->next;
 			delete head;
 			head = NULL;
+			if(afterTarget != NULL)
+				head = afterTarget;
 		}
 		else
 		{
-			--size;
 			targetNode = find(index); //get the target node
 			beforeTarget = targetNode->prev; //get the node before our target
+
 			//link the nodes before and after our target
 			beforeTarget->next = targetNode->next;
-			targetNode->next->prev = beforeTarget; 
-			// return node to system
+			afterTarget = targetNode->next;
+			if(afterTarget != NULL)
+			{
+				targetNode->next->prev = beforeTarget; 
+			}
+
+			// return target node to system
 			targetNode->next = NULL;
 			targetNode->prev = NULL;
 			delete targetNode;
@@ -115,13 +141,18 @@ void DList::remove(int index, bool &success)
 	}
 }
 
-void DList::retrieve(int index, ListType &dataItem, bool &success) const
+void DList::retrieve(int index, ListItemType &dataItem, bool &success) const
 {
 	success = index >= 1 && index <= getLength();
 	if(success)
 	{
 		DListNode* targetNode = find(index);
 		dataItem = targetNode->item;
+
+		if(targetNode->prev != NULL)
+			cout << "Item before node: " << targetNode->prev->item << endl;
+		if(targetNode->next != NULL)
+			cout << "Item after node: " << targetNode->next->item << endl;
 	}
 }
 

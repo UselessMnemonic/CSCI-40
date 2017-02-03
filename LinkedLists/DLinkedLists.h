@@ -1,4 +1,4 @@
-typedef int ListType;
+typedef int ListItemType;
 
 class DList
     {
@@ -19,7 +19,7 @@ class DList
         // Postcondition: Returns the number of items
         // that are currently in the list.
 
-        void insert(int index, ListType newItem, bool &success);
+        void insert(int index, ListItemType newItem, bool &success);
         // Inserts an item into the list at position index.
         // Precondition: index indicates the position at which
         // the item should be inserted in the list.
@@ -39,7 +39,7 @@ class DList
         // deleted, other items are renumbered accordingly,
         // and success is true; otherwise success is false.
 
-        void retrieve(int index, ListType &dataItem, bool& success) const;
+        void retrieve(int index, ListItemType &dataItem, bool& success) const;
         // Retrieves a list item by position.
         // Precondition: index is the number of the item to
         // be retrieved.
@@ -50,7 +50,7 @@ class DList
     private:
         struct DListNode // a node in the list
 		{
-			ListType item; // a data item on the list
+			ListItemType item; // a data item on the list
 			DListNode* next; // pointer to next node
 			DListNode* prev;
 		}; // end struct
