@@ -74,7 +74,6 @@ void List::insert(int index, ListType& newItem, bool &success) //insert a valid 
 		}
 		else
 		{
-			//otherwise, grab the node right above us
 			beforeTarget = find(index - 1);
 			newNode->next = beforeTarget->next; //point our new node to the node pointed to by that node above our target node
 			beforeTarget->next = newNode; //point the node above us to the new node
