@@ -69,26 +69,20 @@ void DList::insert(int index, ListItemType newItem, bool &success) //insert a va
 		size = newSize; //set our size
 		newNode = new DListNode; //create a new Node
 		newNode->item = newItem; //give our new Node the item
-		
-		if(index == 1)
+
+		if(index == 1) //if our target is the head
 		{
-			if(head == NULL) //create the head Node and point it to NULLs
-			{
-				head = newNode;
-				head->next = NULL;
-				head->prev = NULL;
-			}
-			else //place our new node as head
-			{
 				newNode->next = head;
 				newNode->prev = NULL;
-				head->prev = newNode;
+				if(head != NULL) //make sure head isn't node before we try to dereference
+				{
+					head->prev = newNode;
+				}
 				head = newNode;
-			}
 		}
 		else
 		{
-			targetNode = find(index); //grab our target
+			targetNode = find(index-1); //grab our target
 			newNode->next = targetNode->next; //point our newNode to the node after our target
 
 			if(targetNode->next != NULL)
@@ -121,7 +115,7 @@ void DList::remove(int index, bool &success)
 		}
 		else
 		{
-			targetNode = find(index); //get the target node
+			targetNode = find(index);		 //get the target node
 			beforeTarget = targetNode->prev; //get the node before our target
 
 			//link the nodes before and after our target
@@ -150,9 +144,13 @@ void DList::retrieve(int index, ListItemType &dataItem, bool &success) const
 		dataItem = targetNode->item;
 
 		if(targetNode->prev != NULL)
-			cout << "Item before node: " << targetNode->prev->item << endl;
+			cout << "Item before target node: " << targetNode->prev->item << endl;
+		else
+			cout << "No item before target node.";
 		if(targetNode->next != NULL)
 			cout << "Item after node: " << targetNode->next->item << endl;
+		else
+			cout << "No item after target node.";
 	}
 }
 
