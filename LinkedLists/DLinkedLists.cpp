@@ -33,7 +33,10 @@ DList::DList(const DList &otherDList) //Copy Constructor; copies all elements in
 		head->item = otherDList.head->item; //copy the otherDList's head item into ours
 		currentNode = head;
 
-		for (DListNode* nodeInOtherDList = otherDList.head->next; nodeInOtherDList != otherDList.head; nodeInOtherDList = nodeInOtherDList->next) //for every following node in otherDList that does not point to our head
+		//for every following node in otherDList that does not point to our head
+		for (DListNode* nodeInOtherDList = otherDList.head->next;
+			nodeInOtherDList != otherDList.head;
+			nodeInOtherDList = nodeInOtherDList->next) 
 		{
 			currentNode->next = new DListNode; //point currentNode to a new Node
 			currentNode->next->prev = currentNode; //retro-point the new Node to the current one
@@ -41,8 +44,8 @@ DList::DList(const DList &otherDList) //Copy Constructor; copies all elements in
 			currentNode = currentNode->next; //advance currentNode into the new Node
 		}
 
-		currentNode->next = head; //point our last node to our head
-		head->prev = currentNode; //retro-point our head to our last node
+		currentNode->next = NULL; //point our last node to NULL
+		head->prev = NULL; //retro-point our head to NULL
 	}
 }
 
@@ -56,7 +59,8 @@ int DList::getLength() const //returns the DList's length
 	return size;
 }
 
-void DList::insert(int index, ListItemType newItem, bool &success) //insert a valid node into the DList at the specified index
+//insert a valid node into the DList at the specified index
+void DList::insert(int index, ListItemType newItem, bool &success) 
 {
 	int newSize = getLength() + 1; //get the size of the new DList
 	DListNode* newNode;
@@ -103,8 +107,6 @@ void DList::remove(int index, bool &success)
 
 	if (success)
 	{
-		--size;
-
 		if(index == 1)
 		{
 			afterTarget = head->next;
@@ -132,6 +134,7 @@ void DList::remove(int index, bool &success)
 			delete targetNode;
 			targetNode = NULL;
 		}
+		--size;
 	}
 }
 
@@ -146,19 +149,21 @@ void DList::retrieve(int index, ListItemType &dataItem, bool &success) const
 		if(targetNode->prev != NULL)
 			cout << "Item before target node: " << targetNode->prev->item << endl;
 		else
-			cout << "No item before target node.";
+			cout << "No item before target node." << endl;
 		if(targetNode->next != NULL)
 			cout << "Item after node: " << targetNode->next->item << endl;
 		else
-			cout << "No item after target node.";
+			cout << "No item after target node." << endl;
 	}
 }
 
 DList::DListNode* DList::find(int index) const
 {
-	if ( index < 1 || index > getLength() )
-        return NULL;
-
+	if (index < 1 || index > getLength())
+	{
+		return NULL;
+	}
+	
 	int location = 1;
 	DListNode* currentNode = head;
 	while(location != index) //loop untill we reach our destination, and save a pointer to the desired node
