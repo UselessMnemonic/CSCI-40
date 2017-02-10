@@ -1,3 +1,7 @@
+/* Authored by Christopher Madrigal
+*  DLinkedLists.cpp
+*  Pointer-based Double-linked list implementation
+*/
 #include "DLinkedLists.h"
 #include <iostream>
 #include <stddef.h>
@@ -113,7 +117,10 @@ void DList::remove(int index, bool &success)
 			delete head;
 			head = NULL;
 			if(afterTarget != NULL)
+			{
 				head = afterTarget;
+				afterTarget->prev = NULL;
+			}
 		}
 		else
 		{

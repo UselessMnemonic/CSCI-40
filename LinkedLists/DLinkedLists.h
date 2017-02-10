@@ -1,3 +1,7 @@
+/* Authored by Christopher Madrigal
+*  DLinkedLists.h
+*  Header file to pointer-based Double-linked list implementation
+*/
 typedef int ListItemType;
 
 class DList

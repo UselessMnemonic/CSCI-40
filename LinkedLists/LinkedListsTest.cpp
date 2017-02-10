@@ -1,4 +1,7 @@
-// Test program for the ADT list
+/* Christopher Madrigal
+*  LinkedListsTest.cpp
+*  DLinkedList test program
+*/
 #include <iostream>
 using namespace std;
 #include "DLinkedLists.h"
