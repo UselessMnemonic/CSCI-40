@@ -41,72 +41,73 @@
 using namespace std;
 #include "QueueP.h"
 // event list 
-enum events { A, D }; // arrival and departure 
+enum events {A, D}; // arrival and departure 
 struct enode;
 typedef enode* enodeptr;
 struct enode
-{
-	enodeptr next; // next event 
-	int time;
-	events etype; // time of event 
-	int trans; // transaction time
-	Queue parent;
-};
+    {
+    enodeptr next; // next event 
+    int time;
+    events etype; // time of event 
+    int trans; // transaction time
+    }; 
 
 struct statistics
-{
-	int totnum; // total no. of customers 
-	int totwait; // cumulative waiting time
-};
-Queue Q1, Q2, Q3; // waiting lines
-void Einsert(enodeptr&, enodeptr);
-void getA(enodeptr& E, ifstream&);
-void ProcessA(enode, enodeptr&, ifstream&, statistics&);
-void ProcessD(enode, enodeptr&, statistics&);
+    {
+    int totnum; // total no. of customers 
+    int totwait; // cumulative waiting time 
+    };
+Queue Q; // the waiting line 
+void Einsert (enodeptr& ,enodeptr);
+void getA (enodeptr& E,ifstream&);
+void ProcessA (enode, enodeptr&,ifstream&,statistics&);
+void ProcessD (enode, enodeptr&,statistics&);
 
 
 int main()
 {
-	string s;
-	enodeptr E; // the event list 
-	statistics Stats; // global statistics 
-	ifstream Inputfile("infile"); // arrival and transaction times 
-	enodeptr NewEvent; // the current event node 
-					   // initialize 
-	E = NULL;
-	Stats.totnum = 0;
-	Stats.totwait = 0;
-	NewEvent = new enode;
-	cout << "Simulation Begins\n";
-	// get the first arrival event 
-	getA(E, Inputfile);
+string s;
+enodeptr E; // the event list 
+statistics Stats; // global statistics 
+ifstream Inputfile("infile"); // arrival and transaction times 
+enodeptr NewEvent; // the current event node 
 
-	// process events until the event list is empty 
-	while (E != NULL)
-	{
-		NewEvent = E; // next event at beginning of event list 
-		E = E->next; // delete event from event list 
-		if (NewEvent->etype == A)
-			ProcessA(*NewEvent, E, Inputfile, Stats); // process arrival event 
-		else
-			ProcessD(*NewEvent, E, Stats); // process departure event 
-	} // while 
+// initialize 
+E = NULL;
+Stats.totnum = 0;
+Stats.totwait = 0;
+NewEvent = new enode;
+cout<<"Simulation Begins\n";
 
-	cout << "Simulation Ends\n";
+// get the first arrival event 
+getA(E,Inputfile);
 
-	// write out the final statistics 
-	cout << "\nFinal Statistics:\n";
-	cout << " Total number of people processed: " << Stats.totnum << endl;
-	cout << " Average amount of time spent on line: ";
-	if (Stats.totnum == 0)
-		cout << " 0.0\n";
-	else
-		cout << double(Stats.totwait) / double(Stats.totnum) << endl;
-	return 0;
+// process events until the event list is empty 
+while (E != NULL) 
+    {
+    NewEvent = E; // next event at beginning of event list 
+    E = E->next; // delete event from event list 
+    if(NewEvent->etype == A)
+        ProcessA(*NewEvent, E,Inputfile,Stats); // process arrival event 
+    else
+        ProcessD(*NewEvent, E,Stats); // process departure event 
+    } // while 
+
+cout<<"Simulation Ends\n";
+
+// write out the final statistics 
+cout<<"\nFinal Statistics:\n";
+cout<<" Total number of people processed: "<< Stats.totnum<<endl;
+cout<<" Average amount of time spent on line: ";
+if(Stats.totnum == 0)
+    cout<<" 0.0\n";
+else
+    cout<<double(Stats.totwait) / double(Stats.totnum)<<endl;
+return 0;
 } //main
 
 
-void Einsert(enodeptr& E, enodeptr newnode)
+void Einsert (enodeptr& E,enodeptr newnode )
 // --------------------------------------------------------------
 // Inserts an event node into the event list ordered by time.
 // Precondition: Event list E is empty or has 1 node.
@@ -115,31 +116,31 @@ void Einsert(enodeptr& E, enodeptr newnode)
 // departure events.)
 // -------------------------------------------------------------- 
 {
-	// if the event list is empty 
-	if (E == NULL)
-		E = newnode;
+// if the event list is empty 
+if(E == NULL)
+    E = newnode;
 
-	// if the event list is not empty, then insert new node at front or 
-	// end of list according to time 
+// if the event list is not empty, then insert new node at front or 
+// end of list according to time 
 
-	// new node has earliest time, or has same time but is arrival event 
-	// - insert at front of list 
-	else if ((newnode->time < E->time) || ((newnode->time == E->time) && (newnode->etype == A)))
-	{
-		newnode->next = E;
-		E = newnode;
-	}
+// new node has earliest time, or has same time but is arrival event 
+// - insert at front of list 
+else if((newnode->time < E->time) || ((newnode->time == E->time) && (newnode->etype == A)))
+    {
+    newnode->next = E;
+    E = newnode;
+    }
 
-	// new node has later time, or has same time but is departure event - 
-	// insert at end of the list 
-	else
-	{
-		newnode->next = NULL;
-		E->next = newnode;
-	}
+// new node has later time, or has same time but is departure event - 
+// insert at end of the list 
+else
+    {
+    newnode->next = NULL;
+    E->next = newnode;
+    }
 } // Einsert 
 
-void getA(enodeptr& E, ifstream& Inputfile)
+void getA (enodeptr& E,ifstream& Inputfile)
 // --------------------------------------------------------------
 // Reads data for the next arrival event, and inserts the new arrival 
 // node into the event list E.
@@ -150,36 +151,21 @@ void getA(enodeptr& E, ifstream& Inputfile)
 // Calls: Einsert.
 // File: Inputfile.
 // -------------------------------------------------------------- 
-{
-	enodeptr p;
-	if (! Inputfile.eof())
-	{
-		// create a new event node 
-		p = new enode; // get pointer to new node 
-		p->etype = A; // tag field == arrival event 
-		p->next = NULL;
-		Inputfile >> p->time >> p->trans;
+{ enodeptr p;
+if(! Inputfile.eof())
+    {
+    // create a new event node 
+    p = new enode; // get pointer to new node 
+    p->etype = A; // tag field == arrival event 
+    p->next = NULL;
+    Inputfile>> p->time>> p->trans;
 
-		int line = rand() % 3 + 1;
-		switch (line)
-		{
-		case 1:
-			p->parent = Q1;
-			break;
-		case 2:
-			p->parent = Q2;
-			break;
-		case 3:
-			p->parent = Q3;
-			break;
-		}
-
-		// insert the node into the event list 
-		Einsert(E, p);
-	}
+    // insert the node into the event list 
+    Einsert(E, p);
+    }
 }; // getA 
 
-void ProcessA(enode doevent, enodeptr& E, ifstream& Inputfile, statistics& Stats)
+void ProcessA (enode doevent, enodeptr& E,ifstream& Inputfile,statistics& Stats)
 // --------------------------------------------------------------
 // Executes an arrival event.
 // Precondition: Event node doevent contains the arrival event, E is 
@@ -193,43 +179,43 @@ void ProcessA(enode doevent, enodeptr& E, ifstream& Inputfile, statistics& Stats
 // Calls: Einsert, getA, IsEmpty, Add.
 // -------------------------------------------------------------- 
 { //ProcessA
-	int current; // arrival time of current person 
-	itemtype PersonInLine; // data about person in queue 
-	enodeptr event; // event in event list 
-	bool success;
-	Queue parent;
-	// update the global statistics 
-	Stats.totnum = Stats.totnum + 1;
+int current; // arrival time of current person 
+itemtype PersonInLine; // data about person in queue 
+enodeptr event; // event in event list 
+bool success;
+// update the global statistics 
+Stats.totnum = Stats.totnum + 1;
 
-	// get current time 
-	current = doevent.time;
-	cout << "Processing an arrival event at time: " << current << endl;
+// get current time 
+current = doevent.time;
+cout<<"Processing an arrival event at time: "<< current<<endl;
 
-	// if the line is empty, then the person starts transaction 
-	if (doevent.parent.isEmpty())
-	{
-		// create a departure event 
-		event = new enode; // get pointer to new node 
-		event->etype = D; // tag field == departure event 
-		event->next = NULL;
-		event->time = current + doevent.trans;
-		event->parent = doevent.parent;
-		// insert the node into the event list 
-		Einsert(E, event);
-		//delete event;
-	}
+// update the event list 
 
-	// get the next arrival event from input file 
-	getA(E, Inputfile);
+// if the line is empty, then the person starts transaction 
+if(Q.isEmpty())
+    {
+    // create a departure event 
+    event = new enode; // get pointer to new node 
+    event->etype = D; // tag field == departure event 
+    event->next = NULL;
+    event->time = current + doevent.trans;
 
-	// person arrives: update the waiting line (queue) 
-	PersonInLine.trans = doevent.trans;
-	PersonInLine.arrive = current;
-	doevent.parent.enqueue(PersonInLine, success);
+    // insert the node into the event list 
+    Einsert(E, event);
+    //delete event;
+    }
 
+// get the next arrival event from input file 
+getA(E,Inputfile);
+
+// person arrives: update the waiting line (queue) 
+PersonInLine.trans = doevent.trans;
+PersonInLine.arrive = current;
+Q.enqueue( PersonInLine,success);
 } // ProcessA 
 
-void ProcessD(enode doevent, enodeptr& E, statistics& Stats)
+void ProcessD (enode doevent, enodeptr& E,statistics& Stats)
 // --------------------------------------------------------------
 // Executes a departure event.
 // Precondition: Event node doevent contains the departure event, E is 
@@ -240,34 +226,35 @@ void ProcessD(enode doevent, enodeptr& E, statistics& Stats)
 // Stats.totwait (total waiting time) is updated.
 // Calls: Einsert, IsEmpty, Remove, QueueFront.
 // -------------------------------------------------------------- 
-{
-	int current; // arrival time of current person 
-	itemtype PersonInLine; // data about person in queue 
-	enodeptr event; // event in event list 
-	bool success; // flag for queue operations - ignored 
-				  //ProcessD
-	current = doevent.time;
-	cout << "Processing a departure event at time: " << current << endl;
+{ 
+int current; // arrival time of current person 
+itemtype PersonInLine; // data about person in queue 
+enodeptr event; // event in event list 
+bool success; // flag for queue operations - ignored 
+//ProcessD
+current = doevent.time;
+cout<<"Processing a departure event at time: "<<current<<endl;
 
-	// person departs - update the line (queue) 
-	doevent.parent.dequeue(success); // remove person from queue 
-						// update the event list 
+// person departs - update the line (queue) 
+Q.dequeue (success); // remove person from queue 
 
-						// if the line is not empty, then the
-						// next person starts a transaction 
-	if (!doevent.parent.isEmpty())
-	{
-		// create a departure node 
-		doevent.parent.getFront(PersonInLine, success);
-		event = new enode; // get pointer to new node 
-		event->etype = D; // tag field == departure event 
-		event->next = NULL;
-		event->time = current + PersonInLine.trans;
-		event->parent = doevent.parent;
-		// insert the node into the event list 
-		Einsert(E, event);
-		//delete event;
-		// update the global statistics 
-		Stats.totwait = Stats.totwait + (current - PersonInLine.arrive);
-	}
+// update the event list 
+
+// if the line is not empty, then the
+// next person starts a transaction 
+if(!Q.isEmpty())
+    {
+    // create a departure node 
+    Q.getFront( PersonInLine, success);
+    event = new enode; // get pointer to new node 
+    event->etype = D; // tag field == departure event 
+    event->next = NULL;
+    event->time = current + PersonInLine.trans;
+
+    // insert the node into the event list 
+    Einsert(E, event);
+    //delete event;
+    // update the global statistics 
+    Stats.totwait = Stats.totwait + (current - PersonInLine.arrive);
+    }
 } // ProcessD 

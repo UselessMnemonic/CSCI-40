@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BigNumbers", "BigNumbers\BigNumbers.vcxproj", "{55EE722A-2F65-4BB5-B2AF-0E4AE62F40F3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkedLists", "LinkedLists\LinkedLists.vcxproj", "{4C4EBB38-3C2E-4B3E-8A44-FC81352F5F8E}"
@@ -10,6 +8,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Grammar", "Grammar\Grammar.vcxproj", "{7A8DC6DA-5054-4983-93C8-1E441ED8BA39}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BankSimulation", "BankSimulation\BankSimulation.vcxproj", "{0F430035-570F-4945-A70A-EBE0AC270A6D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Towers", "Towers\Towers.vcxproj", "{CFEDA02A-30CE-4A35-9028-5B657228DF85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +45,12 @@ Global
 		{0F430035-570F-4945-A70A-EBE0AC270A6D}.Release|Win32.Build.0 = Release|Win32
 		{0F430035-570F-4945-A70A-EBE0AC270A6D}.Release|x64.ActiveCfg = Release|x64
 		{0F430035-570F-4945-A70A-EBE0AC270A6D}.Release|x64.Build.0 = Release|x64
+		{CFEDA02A-30CE-4A35-9028-5B657228DF85}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CFEDA02A-30CE-4A35-9028-5B657228DF85}.Debug|Win32.Build.0 = Debug|Win32
+		{CFEDA02A-30CE-4A35-9028-5B657228DF85}.Debug|x64.ActiveCfg = Debug|Win32
+		{CFEDA02A-30CE-4A35-9028-5B657228DF85}.Release|Win32.ActiveCfg = Release|Win32
+		{CFEDA02A-30CE-4A35-9028-5B657228DF85}.Release|Win32.Build.0 = Release|Win32
+		{CFEDA02A-30CE-4A35-9028-5B657228DF85}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
