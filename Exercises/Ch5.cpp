@@ -26,15 +26,6 @@ string findTerm(string); //returns the first occurance of a term in the argument
 string findFactor(string); //returns the first occurance of a factor in the argument, empty if no factor can be found
 bool isExpression(string); //returns true if the argument is an expression, false otherwise
 
-void debug(string msg)
-{
-	cout << msg << endl;
-}
-void debug(string msg, string val)
-{
-	debug(msg + ": \"" + val + "\"");
-}
-
 int main() //entry point for program
 {
 	string exp; //stores user input
@@ -52,7 +43,6 @@ int main() //entry point for program
 
 string findExpression(string stringContainingExpression)
 {
-	debug("***FIND EXPRESSION**");
 	if (stringContainingExpression.length() == 2)
 		return "";
 	//holds the possible operator between terms
@@ -60,10 +50,8 @@ string findExpression(string stringContainingExpression)
 
 	//holds the result of findTerm on the argument
 	string termString = findTerm(stringContainingExpression);
-	debug("termString", termString);
 	//substring following the found term in the argument
 	string restOfString = stringContainingExpression.substr(termString.length());
-	debug("restOfString", restOfString);
 	//holds the result of a second term search
 	string nextTerm;
 	//holds a reconstructed result
@@ -74,20 +62,17 @@ string findExpression(string stringContainingExpression)
 	{
 		//find the operator
 		operatorCharacter = restOfString.substr(0, 1);
-		debug("operatorCharacter", operatorCharacter);
 		//if the operator is either a + or -...
 		if (operatorCharacter.at(0) == '+' || operatorCharacter.at(0) == '-')
 		{
 			//find the next term
 			nextTerm = findFactor(restOfString.substr(1));
-			debug("nextTerm", nextTerm);
 			//if the search fails, the argument contains no valid expression
 			if (nextTerm.empty())
 				return "";
 			else //else, return a reconstructed term,
 			{
-				result = termString + operatorCharacter + nextTerm;;
-				debug("result", result);
+				result = termString + operatorCharacter + nextTerm;
 
 				if (stringContainingExpression.compare(result) == 0)
 					return result;
@@ -104,16 +89,13 @@ string findExpression(string stringContainingExpression)
 
 string findTerm(string stringContainingTerm)
 {
-	debug("***FIND TERM**");
 	//holds the possible operator between factors
 	string operatorCharacter;
 
 	//holds the result of findFactor on the argument
 	string factorString = findFactor(stringContainingTerm);
-	debug("factorString", factorString);
 	//substring following the found factor in the argument
 	string restOfString = stringContainingTerm.substr(factorString.length());
-	debug("restOfString", restOfString);
 	//holds the result of a second factor search
 	string nextFactor;
 
@@ -122,13 +104,11 @@ string findTerm(string stringContainingTerm)
 	{
 		//find the operator
 		operatorCharacter = restOfString.substr(0, 1);
-		debug("operatorCharacter", operatorCharacter);
 		//if the operator is either a * or /...
 		if (operatorCharacter.at(0) == '*' || operatorCharacter.at(0) == '/')
 		{
 			//find the next factor
 			nextFactor = findFactor(restOfString.substr(1));
-			debug("nextFactor", nextFactor);
 			//if the search fails, the argument contains no valid term
 			if (nextFactor.empty())
 				return "";
@@ -144,9 +124,7 @@ string findTerm(string stringContainingTerm)
 
 string findFactor(string stringContainingFactor)
 {
-	debug("***FIND FACTOR**");
 	string firstCharacter = stringContainingFactor.substr(0, 1);
-	debug("firstCharacter", firstCharacter);
 	string stringContainingExpression;
 	int indOfClosingPara;
 
@@ -154,7 +132,6 @@ string findFactor(string stringContainingFactor)
 	{
 		//get the string following the (
 		stringContainingExpression = stringContainingFactor.substr(1);
-		debug("stringContainingExpression", stringContainingExpression);
 
 		//if we have "<expression>)"
 		if (stringContainingExpression.length() >= 4)
@@ -174,9 +151,7 @@ string findFactor(string stringContainingFactor)
 			{
 				//otherwisem isolate the embedded expression and check for validity
 				stringContainingExpression = stringContainingExpression.substr(0, indOfClosingPara);
-				debug("stringContainingExpression", stringContainingExpression);
 				stringContainingExpression = findExpression(stringContainingExpression);
-				debug("stringContainingExpression", stringContainingExpression);
 				//if the search failed, the argument is not a valid factor
 				if (stringContainingExpression.empty())
 					return "";
