@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BigNumbers", "BigNumbers\BigNumbers.vcxproj", "{55EE722A-2F65-4BB5-B2AF-0E4AE62F40F3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkedLists", "LinkedLists\LinkedLists.vcxproj", "{4C4EBB38-3C2E-4B3E-8A44-FC81352F5F8E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Grammar", "Grammar\Grammar.vcxproj", "{7A8DC6DA-5054-4983-93C8-1E441ED8BA39}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exercises", "Exercises\Exercises.vcxproj", "{FEA8E9AE-8868-42D6-A298-0935489A2194}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +27,6 @@ Global
 		{7A8DC6DA-5054-4983-93C8-1E441ED8BA39}.Debug|Win32.Build.0 = Debug|Win32
 		{7A8DC6DA-5054-4983-93C8-1E441ED8BA39}.Release|Win32.ActiveCfg = Release|Win32
 		{7A8DC6DA-5054-4983-93C8-1E441ED8BA39}.Release|Win32.Build.0 = Release|Win32
-		{FEA8E9AE-8868-42D6-A298-0935489A2194}.Debug|Win32.ActiveCfg = Debug|Win32
-		{FEA8E9AE-8868-42D6-A298-0935489A2194}.Debug|Win32.Build.0 = Debug|Win32
-		{FEA8E9AE-8868-42D6-A298-0935489A2194}.Release|Win32.ActiveCfg = Release|Win32
-		{FEA8E9AE-8868-42D6-A298-0935489A2194}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
