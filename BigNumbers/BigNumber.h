@@ -12,15 +12,23 @@ int[2] -> third digit (hundreds)
 int[MAX_DIGITS-1] -> last digit
 
 */
+#include <iostream>
+using namespace std;
 
 const int MAX_DIGITS = 100;
 
 class BigNumber
 {
+	friend ostream& operator<<(ostream&, BigNumber); //inserts the string value of BigNumber into stream
+	friend istream& operator>>(istream&, BigNumber&); //extracts a BigNumber from stream
 public:
-	void printBig(); //prints the value of this BigNumber
-	void readBig(); //pasrses value from cin into this BigNumber
-	BigNumber addBig(BigNumber otherNumber); //returns a BigNumber from the sum of this BigNumber and the argument 
+	BigNumber(int);
+	BigNumber();
+	BigNumber operator+(BigNumber); //returns the sum of two BigNumber
+	BigNumber operator++(); //increments the BigNumber
+	bool      operator<(BigNumber); //checks to see if this BigNumber is less than another
+	bool      operator>(BigNumber); //checks to see if this BigNumber is greater than another
+	bool      operator==(BigNumber); //checks to see if BigNumbers are equal
 private:
-	int value[MAX_DIGITS]; //stores the value of BigNumber object
+	int digits[MAX_DIGITS]; //stores the value of BigNumber object
 };

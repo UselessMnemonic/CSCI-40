@@ -13,22 +13,22 @@ int main()
 	BigNumber anotherNumber; //store second user number
 	BigNumber thirdNumber; //store result of sum
 
-	cout<< "Please enter a number of up to " << MAX_DIGITS << " digits in legnth: "; //prompt for number
-	aNumber.readBig(); //read number from cin
+	cout << "Please enter a number of up to " << MAX_DIGITS << " digits in legnth: "; //prompt for number
+	cin >> aNumber; //read number from cin
 	cout << "You entered: ";
-	aNumber.printBig(); //validate user's input
-	cout<< endl << endl; //move two lines
+	cout << aNumber; //validate user's input
+	cout << endl << endl; //move two lines
 
 	cout << "Please enter another number: ";
-	anotherNumber.readBig();
+	cin >> anotherNumber;
 	cout << "You entered: ";
-	anotherNumber.printBig();
+	cout << anotherNumber;
 	cout<< endl << endl;
 
-	thirdNumber = aNumber.addBig(anotherNumber); //get sum of user input
+	thirdNumber = aNumber + anotherNumber; //get sum of user input
 
 	cout << "The sum of these numbers is: ";
-	thirdNumber.printBig(); //print sum
+	cout << thirdNumber; //print sum
 	cout << endl << endl;
 
 	return 0;
