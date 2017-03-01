@@ -48,7 +48,7 @@ using namespace std;
 enum events {A, D}; // arrival and departure 
 struct eventNode;
 typedef eventNode* eventNodePtr;
-const int NUM_LINES = 1;
+const int NUM_LINES = 2;
 
 struct eventNode
 {
@@ -67,13 +67,12 @@ struct statistics
 };
 
 //waiting lines
-Queue lines[NUM_LINES];
+Queue* lines[NUM_LINES];
 
 void Einsert (eventNodePtr& ,eventNodePtr);
 void getNextArrival (eventNodePtr& E,ifstream&);
 void ProcessA (eventNode, eventNodePtr&, ifstream&, statistics&);
 void ProcessD (eventNode, eventNodePtr&, statistics&);
-Queue& getShortestLine();
 
 int main()
 {
@@ -89,8 +88,11 @@ int main()
 	Stats.sumCustomers = 0;
 	Stats.sumWaitingTime = 0;
 
-	for(int i = 0; i <= NUM_LINES-1; i++)
+	for (int i = 0; i <= NUM_LINES - 1; i++)
+	{
 		Stats.lineSize[i] = 0;
+		lines[i] = new Queue;
+	}
 
 	NewEvent = new eventNode;
 	cout << "Simulation Begins\n";
@@ -108,6 +110,7 @@ int main()
 			ProcessA(*NewEvent, E,Inputfile,Stats); // process arrival event 
 		else
 			ProcessD(*NewEvent, E,Stats); // process departure event 
+		delete NewEvent;
     }
 
 	cout<<"Simulation Ends\n";
@@ -200,19 +203,19 @@ void ProcessD (eventNode doevent, eventNodePtr& E,statistics& Stats)
 	//ProcessD
 	current = doevent.time;
 	cout<<"Processing a departure event at time: "<<current<<endl;
-	Queue targetQueue = lines[doevent.indOfLine];
+	Queue* targetQueue = lines[doevent.indOfLine];
 	// person departs - update the line (queue) 
-	targetQueue.dequeue(success); // remove person from queue 
+	targetQueue->dequeue(success); // remove person from queue 
 	if(success)
 		Stats.lineSize[doevent.indOfLine] -= 1;
 
 	// update the event list 
 	// if the line is not empty, then the
 	// next person starts a transaction 
-	if(!targetQueue.isEmpty())
+	if(!targetQueue->isEmpty())
 	{
 		// create a departure node 
-		targetQueue.getFront(PersonInLine, success);
+		targetQueue->getFront(PersonInLine, success);
 		event = new eventNode; // get pointer to new node 
 		event->etype = D; // tag field == departure event 
 		event->next = NULL;
@@ -242,7 +245,7 @@ void ProcessA (eventNode doevent, eventNodePtr& E, ifstream& Inputfile, statisti
 // -------------------------------------------------------------- 
 {
 	
-	Queue targetLine;
+	Queue* targetLine;
 	int indTargetLine = 0;
 
 	for(int i = 1; i <= NUM_LINES-1; i++)
@@ -267,14 +270,13 @@ void ProcessA (eventNode doevent, eventNodePtr& E, ifstream& Inputfile, statisti
 	// update the event list 
 
 	// if the line is empty, then the person starts transaction 
-	if(targetLine.isEmpty())
+	if(targetLine->isEmpty())
 	{
 		// create a departure event 
 		event = new eventNode; // get pointer to new node 
 		event->etype = D; // tag field == departure event 
 		event->next = NULL;
 		event->time = current + doevent.trans;
-		cout << "     Should leave at time: " << event->time << endl;
 		event->indOfLine = indTargetLine;
 		// insert the node into the event list 
 		Einsert(E, event);
@@ -287,6 +289,6 @@ void ProcessA (eventNode doevent, eventNodePtr& E, ifstream& Inputfile, statisti
 	// person arrives: update the waiting line (queue) 
 	PersonInLine.trans = doevent.trans;
 	PersonInLine.arrive = current;
-	targetLine.enqueue(PersonInLine,success);
+	targetLine->enqueue(PersonInLine,success);
 	Stats.lineSize[indTargetLine] += 1;
 }
