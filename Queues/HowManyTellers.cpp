@@ -48,7 +48,7 @@ using namespace std;
 enum events {A, D}; // arrival and departure 
 struct eventNode;
 typedef eventNode* eventNodePtr;
-const int NUM_LINES = 2;
+const int NUM_LINES = 1;
 
 struct eventNode
 {

@@ -1,5 +1,5 @@
 /* Authored by Christopher Madrigal
-20 January 2017
+1 March 2017
 
 Big Number layout
 
@@ -136,7 +136,7 @@ ostream& operator<<(ostream& out, BigNumber toPrint) //prints the value of this 
 		out << toPrint.digits[i]; //...print in proper order
 		i--;
 	}
-	return out;
+	return out; //return the output stream for chain insertions
 }
 
 istream& operator>>(istream& in, BigNumber& toSave) //pasrses value from cin into this BigNumber
@@ -159,6 +159,6 @@ istream& operator>>(istream& in, BigNumber& toSave) //pasrses value from cin int
 		toSave.digits[i] = numString.at(numberStartPosition - i) - '0'; //get the number from the corresponding character in string
 		i--;
 	}
-	return in;
+	return in; //return the input stream for chain extractions
 }
 

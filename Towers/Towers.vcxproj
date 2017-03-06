@@ -78,11 +78,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Stacks\StackP.h" />
+    <ClCompile Include="StackP.cpp" />
+    <ClCompile Include="TowersMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Stacks\StackP.cpp" />
-    <ClCompile Include="TowersMain.cpp" />
+    <ClInclude Include="StackP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

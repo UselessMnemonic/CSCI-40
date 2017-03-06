@@ -1,6 +1,5 @@
 /* Authored by Christopher Madrigal
-Test Program for BigNumber class
-20 January 2017
+1 March 2017
 */
 
 #include "BigNumber.h"
