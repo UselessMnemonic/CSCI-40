@@ -2,6 +2,8 @@
 *   Authored by Christopher Madrigal
 *   Chapter 5 - 6th ed - Programming Problem #8
 *
+*   Asks user for a string and determined if the string is a valid expression, as defined recursively below.
+*
 *   -Grammar-
 *   <expression> = <term>|<term> + <term>|<term> - <term>
 *   <term> = <factor>|<factor>*<factor>|<factor>/<factor>
@@ -21,39 +23,46 @@
 #include <string>
 using namespace std;
 
-string findExpression(string); //returns an expression string, empty if the argument is not an expression
-string findTerm(string); //returns the first occurance of a term in the argument, empty if no term can be found
-string findFactor(string); //returns the first occurance of a factor in the argument, empty if no factor can be found
-bool isExpression(string); //returns true if the argument is an expression, false otherwise
+//returns an expression string, empty if the argument is not an expression
+string findExpression(string);
+
+ //returns the first occurance of a term in the argument, empty if no term can be found
+string findTerm(string);
+
+//returns the first occurance of a factor in the argument, empty if no factor can be found
+string findFactor(string);
 
 int main() //entry point for program
 {
-	string exp; //stores user input
-	while (true)
+	string input; //stores user input
+	do
 	{
 		cout << "Enter an expression: "; //prompt for string
-		cin >> exp;
-		//print result of isExpression
-		if (!isExpression(exp))
-			cout << "in";
-		cout << "valid expression" << endl;
-	}
+		cin >> input;
+		input = findExpression(input);
+		cout << "Parsed expression: \"" << input << "\"\n\n";
+	} while(1);
 	return 1;
 }
 
 string findExpression(string stringContainingExpression)
 {
+	//there is never an expression of length 2
 	if (stringContainingExpression.length() == 2)
 		return "";
+
 	//holds the possible operator between terms
 	string operatorCharacter;
 
 	//holds the result of findTerm on the argument
 	string termString = findTerm(stringContainingExpression);
+
 	//substring following the found term in the argument
 	string restOfString = stringContainingExpression.substr(termString.length());
+
 	//holds the result of a second term search
 	string nextTerm;
+
 	//holds a reconstructed result
 	string result;
 
@@ -62,11 +71,13 @@ string findExpression(string stringContainingExpression)
 	{
 		//find the operator
 		operatorCharacter = restOfString.substr(0, 1);
+
 		//if the operator is either a + or -...
 		if (operatorCharacter.at(0) == '+' || operatorCharacter.at(0) == '-')
 		{
 			//find the next term
 			nextTerm = findFactor(restOfString.substr(1));
+
 			//if the search fails, the argument contains no valid expression
 			if (nextTerm.empty())
 				return "";
@@ -84,7 +95,7 @@ string findExpression(string stringContainingExpression)
 			return "";
 	}
 	else
-		return termString;
+		return termString; //if there is nothing left, then our term is our expression
 }
 
 string findTerm(string stringContainingTerm)
@@ -94,8 +105,10 @@ string findTerm(string stringContainingTerm)
 
 	//holds the result of findFactor on the argument
 	string factorString = findFactor(stringContainingTerm);
+
 	//substring following the found factor in the argument
 	string restOfString = stringContainingTerm.substr(factorString.length());
+
 	//holds the result of a second factor search
 	string nextFactor;
 
@@ -104,11 +117,13 @@ string findTerm(string stringContainingTerm)
 	{
 		//find the operator
 		operatorCharacter = restOfString.substr(0, 1);
+
 		//if the operator is either a * or /...
 		if (operatorCharacter.at(0) == '*' || operatorCharacter.at(0) == '/')
 		{
 			//find the next factor
 			nextFactor = findFactor(restOfString.substr(1));
+
 			//if the search fails, the argument contains no valid term
 			if (nextFactor.empty())
 				return "";
@@ -124,10 +139,16 @@ string findTerm(string stringContainingTerm)
 
 string findFactor(string stringContainingFactor)
 {
+	//holds the first character
 	string firstCharacter = stringContainingFactor.substr(0, 1);
+
+	//holds the rest of our factor string if it contains an expression
 	string stringContainingExpression;
+
+	//index of a closing parenthesis
 	int indOfClosingPara;
 
+	//if the first character is (
 	if (firstCharacter.at(0) == '(')
 	{
 		//get the string following the (
@@ -139,10 +160,9 @@ string findFactor(string stringContainingFactor)
 			//if there is a closing brace after three characters
 			if (stringContainingExpression.at(3) == ')')
 				indOfClosingPara = 3; //then we found the end of our factor
+
 			else //otherwise, the embedded expression has a far right closing )
 				indOfClosingPara = stringContainingExpression.find_last_of(')');
-
-			cout << "indOfClosingPara: " << indOfClosingPara << endl;
 
 			//if there is no closing ), the argument is not a valid factor
 			if (indOfClosingPara == string::npos)
@@ -152,10 +172,11 @@ string findFactor(string stringContainingFactor)
 				//otherwisem isolate the embedded expression and check for validity
 				stringContainingExpression = stringContainingExpression.substr(0, indOfClosingPara);
 				stringContainingExpression = findExpression(stringContainingExpression);
+
 				//if the search failed, the argument is not a valid factor
 				if (stringContainingExpression.empty())
 					return "";
-				else
+				else //otherwise, return a reconstructed factor
 					return "(" + stringContainingExpression + ")";
 			}
 		}
@@ -168,15 +189,12 @@ string findFactor(string stringContainingFactor)
 		else
 			return "";
 	}
+	//if the first character is a-z, return
 	else if (isalpha(firstCharacter.at(0)))
 	{
 		return firstCharacter;
 	}
+	//if all else, then the argument is not a valid factor
 	else
 		return "";
-}
-
-bool isExpression(string stringContainingExpression)
-{
-	return !findExpression(stringContainingExpression).empty();
 }

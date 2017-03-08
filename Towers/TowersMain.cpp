@@ -58,58 +58,192 @@ void solveTowers(int count)
 		A.Push(n, ok);
 	}
 
-	while(  !A.StackIsEmpty() || !C.StackIsEmpty() )
+	if(count%2 == 1)
 	{
-		//make moves between A and B
-		A.GetStackTop(first, ok);
-		B.GetStackTop(second, ok);
-
-		if(B.StackIsEmpty() || first > second)
+		while(true)
 		{
-			A.Pop(first, ok);
-			B.Push(first, ok);
-			cout << "Move from A to B" << endl;
-		}
-		else
-		{
-			B.Pop(second, ok);
-			A.Push(second, ok);
-			cout << "Move from B to A" << endl;
-		}
+			//make moves between A and B
+			A.GetStackTop(first, ok);
+			B.GetStackTop(second, ok);
 
-		//make moves between A and C
-		A.GetStackTop(first, ok);
-		C.GetStackTop(second, ok);
+			if(A.StackIsEmpty())
+			{
+				B.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from B to A" << endl;
+			}
+			else if(B.StackIsEmpty())
+			{
+				A.Pop(first,ok);
+				B.Push(first,ok);
+				cout << "Move from A to B" << endl;
+			}
+			else if(first > second)
+			{
+				B.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from B to A" << endl;
+			}
+			else
+			{
+				A.Pop(first,ok);
+				B.Push(first,ok);
+				cout << "Move from A to B" << endl;
+			}
 
-		if(C.StackIsEmpty() || first > second)
-		{
-			A.Pop(first, ok);
-			C.Push(first, ok);
-			cout << "Move from A to C" << endl;
-		}
-		else
-		{
-			C.Pop(second, ok);
-			A.Push(second, ok);
-			cout << "Move from C to A" << endl;
-		}
 
-		//make moves between B and C
-		B.GetStackTop(first, ok);
-		C.GetStackTop(second, ok);
+			//make moves between A and C
+			if(A.StackIsEmpty() && C.StackIsEmpty())
+				break;
+			A.GetStackTop(first, ok);
+			C.GetStackTop(second, ok);
+			if(A.StackIsEmpty())
+			{
+				C.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from C to A" << endl;
+			}
+			else if(C.StackIsEmpty())
+			{
+				A.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from A to C" << endl;
+			}
+			else if(first > second)
+			{
+				C.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from C to A" << endl;
+			}
+			else
+			{
+				A.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from A to C" << endl;
+			}
 
-		if(C.StackIsEmpty() || first > second)
-		{
-			B.Pop(first, ok);
-			C.Push(first, ok);
-			cout << "Move from B to C" << endl;
-		}
-		else
-		{
-			C.Pop(second, ok);
-			B.Push(second, ok);
-			cout << "Move from C to B" << endl;
-		}
 
+			//make moves between B and C
+			B.GetStackTop(first, ok);
+			C.GetStackTop(second, ok);
+			if(B.StackIsEmpty())
+			{
+				C.Pop(second,ok);
+				B.Push(second,ok);
+				cout << "Move from C to B" << endl;
+			}
+			else if(C.StackIsEmpty())
+			{
+				B.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from B to C" << endl;
+			}
+			else if(first > second)
+			{
+				C.Pop(second,ok);
+				B.Push(second,ok);
+				cout << "Move from C to B" << endl;
+			}
+			else
+			{
+				B.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from B to C" << endl;
+			}
+		}
+	}
+	else
+	{
+		while(true)
+		{
+			//make moves between A and C
+			A.GetStackTop(first, ok);
+			C.GetStackTop(second, ok);
+			if(A.StackIsEmpty() && C.StackIsEmpty())
+				break;
+			if(A.StackIsEmpty())
+			{
+				C.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from C to A" << endl;
+			}
+			else if(C.StackIsEmpty())
+			{
+				A.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from A to C" << endl;
+			}
+			else if(first > second)
+			{
+				C.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from C to A" << endl;
+			}
+			else
+			{
+				A.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from A to C" << endl;
+			}
+
+			
+			//make moves between A and B
+			A.GetStackTop(first, ok);
+			B.GetStackTop(second, ok);
+
+			if(A.StackIsEmpty())
+			{
+				B.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from B to A" << endl;
+			}
+			else if(B.StackIsEmpty())
+			{
+				A.Pop(first,ok);
+				B.Push(first,ok);
+				cout << "Move from A to B" << endl;
+			}
+			else if(first > second)
+			{
+				B.Pop(second,ok);
+				A.Push(second,ok);
+				cout << "Move from B to A" << endl;
+			}
+			else
+			{
+				A.Pop(first,ok);
+				B.Push(first,ok);
+				cout << "Move from A to B" << endl;
+			}
+
+
+			//make moves between B and C
+			B.GetStackTop(first, ok);
+			C.GetStackTop(second, ok);
+			if(B.StackIsEmpty())
+			{
+				C.Pop(second,ok);
+				B.Push(second,ok);
+				cout << "Move from C to B" << endl;
+			}
+			else if(C.StackIsEmpty())
+			{
+				B.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from B to C" << endl;
+			}
+			else if(first > second)
+			{
+				C.Pop(second,ok);
+				B.Push(second,ok);
+				cout << "Move from C to B" << endl;
+			}
+			else
+			{
+				B.Pop(first,ok);
+				C.Push(first,ok);
+				cout << "Move from B to C" << endl;
+			}
+		}
 	}
 }

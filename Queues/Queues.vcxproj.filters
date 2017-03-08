@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HowManyTellers.cpp">
+    <ClCompile Include="QueueP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QueueP.cpp">
+    <ClCompile Include="BankSimulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

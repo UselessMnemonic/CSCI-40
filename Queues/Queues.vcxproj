@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HowManyTellers.cpp" />
+    <ClCompile Include="BankSimulation.cpp" />
     <ClCompile Include="QueueP.cpp" />
   </ItemGroup>
   <ItemGroup>
