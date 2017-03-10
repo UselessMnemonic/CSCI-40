@@ -158,6 +158,7 @@ void Einsert (eventNodePtr& E, eventNodePtr newnode)
 	else
 	{
 		eventNodePtr curr = E;
+		//find the proper time slot
 		while(curr->next != NULL && curr->next->time < newnode->time)
 			curr = curr -> next;
 

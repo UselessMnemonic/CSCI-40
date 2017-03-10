@@ -1,6 +1,9 @@
 /* Authored by Christopher Madrigal
 1 March 2017
 
+Header for BigNumber class, which represents a
+number of MAX_DIGITS digits.
+
 Big Number layout
 
 int[0] -> first digit (ones)
