@@ -1,4 +1,4 @@
-// SEE NOTE AT END OF FILE.
+                                                            // SEE NOTE AT END OF FILE.
 
 // *********************************************************
 // Implementation file BST.cpp.
@@ -132,7 +132,7 @@ ptrType DelPtr;
 treeItemType ReplacementItem;
 
 // test for a leaf
-if ( (NodePtr->LChildPtr == NULL) and (NodePtr->RChildPtr == NULL) )
+if ( (NodePtr->LChildPtr == NULL) && (NodePtr->RChildPtr == NULL) )
     { delete NodePtr;
     NodePtr = NULL;
     } // end if leaf

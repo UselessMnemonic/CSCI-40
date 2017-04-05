@@ -1,0 +1,9 @@
+modify:
+
+retrieve
+-else: print value of parent, left, and right child, if they exist; if null, say so.
+
+insert
+-set parent of tree node
+
+remove
