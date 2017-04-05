@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Towers", "Towers\Towers.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Queues", "Queues\Queues.vcxproj", "{7B9B4323-F699-496E-A3AE-329737998887}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinarySearchTree", "BinarySearchTree\BinarySearchTree.vcxproj", "{5000C653-EB23-48E0-AE93-2D551A00FD83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +51,12 @@ Global
 		{7B9B4323-F699-496E-A3AE-329737998887}.Release|Win32.ActiveCfg = Release|Win32
 		{7B9B4323-F699-496E-A3AE-329737998887}.Release|Win32.Build.0 = Release|Win32
 		{7B9B4323-F699-496E-A3AE-329737998887}.Release|x64.ActiveCfg = Release|Win32
+		{5000C653-EB23-48E0-AE93-2D551A00FD83}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5000C653-EB23-48E0-AE93-2D551A00FD83}.Debug|Win32.Build.0 = Debug|Win32
+		{5000C653-EB23-48E0-AE93-2D551A00FD83}.Debug|x64.ActiveCfg = Debug|Win32
+		{5000C653-EB23-48E0-AE93-2D551A00FD83}.Release|Win32.ActiveCfg = Release|Win32
+		{5000C653-EB23-48E0-AE93-2D551A00FD83}.Release|Win32.Build.0 = Release|Win32
+		{5000C653-EB23-48E0-AE93-2D551A00FD83}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
