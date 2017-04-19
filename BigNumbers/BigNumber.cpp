@@ -73,6 +73,21 @@ BigNumber BigNumber::operator++()
 	return b;
 }
 
+BigNumber BigNumber::operator++(int num)
+{
+	BigNumber result(*this);
+	++(*this);
+	return result;
+}
+
+BigNumber BigNumber::operator+=(BigNumber otherNumber)
+{
+	BigNumber sum = *this + otherNumber;
+	*digits = *(sum.digits);
+
+	return *this;
+}
+
 bool BigNumber::operator<(BigNumber other)
 {
 	int i = MAX_DIGITS-1; //start at most significant

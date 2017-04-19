@@ -29,6 +29,8 @@ public:
 	BigNumber();
 	BigNumber operator+(BigNumber); //returns the sum of two BigNumber
 	BigNumber operator++(); //increments the BigNumber
+	BigNumber operator++(int); //increments the BigNumber 
+	BigNumber operator+=(BigNumber); //returns sum of two BigNumbers
 	bool      operator<(BigNumber); //checks to see if this BigNumber is less than another
 	bool      operator>(BigNumber); //checks to see if this BigNumber is greater than another
 	bool      operator==(BigNumber); //checks to see if BigNumbers are equal
