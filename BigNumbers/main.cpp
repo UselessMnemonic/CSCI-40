@@ -11,6 +11,7 @@ int main()
 	BigNumber aNumber; //store first user number
 	BigNumber anotherNumber; //store second user number
 	BigNumber thirdNumber; //store result of sum
+	BigNumber fourthNumber; //test += and pre ++
 
 	cout << "Please enter a number of up to " << MAX_DIGITS << " digits in legnth: "; //prompt for number
 	cin >> aNumber; //read number from cin
@@ -29,6 +30,20 @@ int main()
 	cout << "The sum of these numbers is: ";
 	cout << thirdNumber; //print sum
 	cout << endl << endl;
+
+	cout << "Please enter a fourth number: ";
+	cin >> fourthNumber;
+	cout << "You entered: ";
+	cout << fourthNumber;
+	cout<< endl << endl;
+
+	fourthNumber+=thirdNumber;
+	cout << "The sum of this number and the previous result is: ";
+	cout << fourthNumber;
+	cout << endl << endl;
+
+	cout << "Your fourth number is now: ";
+	cout << (fourthNumber);
 
 	return 0;
 }

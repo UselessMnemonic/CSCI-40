@@ -67,24 +67,23 @@ BigNumber BigNumber::operator+(BigNumber otherNumber) //returns a BigNumber from
 
 BigNumber BigNumber::operator++()
 {
-	BigNumber b;
-	b=*this;
-	*this=*this+1;
-	return b;
+	BigNumber sum(1);
+	sum += *this;
+	//*(this->digits) = *(sum.digits);
+	return *this;
 }
 
-BigNumber BigNumber::operator++(int num)
+BigNumber BigNumber::operator++(int)
 {
-	BigNumber result(*this);
-	++(*this);
-	return result;
+     BigNumber copy(*this);
+     ++(*this);
+     return copy;
 }
 
 BigNumber BigNumber::operator+=(BigNumber otherNumber)
 {
-	BigNumber sum = *this + otherNumber;
+	BigNumber sum = otherNumber + *this;
 	*digits = *(sum.digits);
-
 	return *this;
 }
 

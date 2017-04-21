@@ -37,12 +37,22 @@ int main() //entry point for program
 
 	while(true)
 	{
+		//prompt user for input
+		cout << "Enter an expression: ";
+
+		//find an expression
 		isExp = findExpression();
 
+		//result is dependent on both finding a valid expression and having no extra characters
 		if(isExp && cin.get() == '\n')
 			cout << "Valid Expression" << endl << endl;
 		else
+		{
 			cout << "Invalid Expression" << endl << endl;
+			cin.ignore(1000, '\n');
+		}
+
+		cout << endl;
 	}
 }
 
@@ -51,13 +61,16 @@ bool findExpression()
 	bool hasTerm;
 	char nextChar;
 
+	//look for a term
 	hasTerm = findTerm();
 
-	cin >> nextChar;
-	cout << "Next char: " << nextChar << endl;
-
+	//if the next character is an operator, check for a following term
+	nextChar = cin.peek();
 	if(nextChar == '+' || nextChar == '-')
+	{
+		nextChar = cin.get();
 		hasTerm = findTerm();
+	}
 
 	return hasTerm;
 }
@@ -67,36 +80,47 @@ bool findTerm()
 	bool hasFactor;
 	char nextChar;
 
+	//look for a factor
 	hasFactor = findFactor();
 
-	cin >> nextChar;
-	cout << "Next char: " << nextChar << endl;
-
+	//if the next character is an operator, check for a following factor
+	nextChar = cin.peek();
 	if(nextChar == '*' || nextChar == '/')
+	{
+		nextChar = cin.get();
 		hasFactor = findFactor();
+	}
 
 	return hasFactor;
 }
 
 bool findFactor()
 {
-	char nextChar;
+	//check the first character
+	char nextChar = cin.peek();
 
-	cin >> nextChar;
-	cout << "Next char: " << nextChar << endl;
-
+	//if the first character is a letter, we have a factor
 	if(isalpha(nextChar))
+	{
+		//consume the character and return result
+		nextChar = cin.get();
 		return true;
+	}
 
+	//if the first character is a (, look for an expression
 	else if(nextChar == '(')
 	{
+		//comsume character and check for expression
+		nextChar = cin.get();
 		findExpression();
 		
-		cin >> nextChar;
-		cout << "Next char: " << nextChar << endl;
-
+		//check for a closing ) and return result
+		nextChar = cin.peek();
 		if(nextChar == ')')
+		{
+			nextChar = cin.get();
 			return true;
+		}
 		else
 			return false;
 	}
