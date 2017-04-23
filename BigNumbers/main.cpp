@@ -31,19 +31,24 @@ int main()
 	cout << thirdNumber; //print sum
 	cout << endl << endl;
 
-	cout << "Please enter a fourth number: ";
+	cout << "Please enter a fourth number: "; //get and print a fourth number
 	cin >> fourthNumber;
 	cout << "You entered: ";
 	cout << fourthNumber;
 	cout<< endl << endl;
 
-	fourthNumber+=thirdNumber;
+	fourthNumber+=thirdNumber; //test +=
 	cout << "The sum of this number and the previous result is: ";
+	cout << fourthNumber++; //test ++, post increment should appear next print
+	cout << endl << endl;
+
+	cout << "Your fourth number plus one is: ";
 	cout << fourthNumber;
 	cout << endl << endl;
 
-	cout << "Your fourth number is now: ";
-	cout << (fourthNumber);
+	cout << "Plus another one: "; //test ++ pre-increment
+	cout << ++fourthNumber;
+	cout << endl << endl;
 
 	return 0;
 }

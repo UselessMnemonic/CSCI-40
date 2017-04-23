@@ -3,9 +3,15 @@
 // Pointer-based implementation.
 // *********************************************************
 
-typedef int stackItemType;
-
 struct stackNode;
+
+struct towerState
+{
+	int count;
+	char source, destination, spare;
+};
+
+typedef towerState stackItemType;
     
 typedef stackNode* ptrType;
 

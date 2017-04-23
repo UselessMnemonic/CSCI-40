@@ -30,7 +30,13 @@ BigNumber::BigNumber(int n)
 	while(i<=MAX_DIGITS-1)
 	{
 		digits[i] = 0;
+		i++;
 	}
+}
+
+BigNumber::BigNumber(BigNumber& otherNumber)
+{
+	setDigits(otherNumber.digits);
 }
 
 BigNumber::BigNumber()
@@ -67,23 +73,22 @@ BigNumber BigNumber::operator+(BigNumber otherNumber) //returns a BigNumber from
 
 BigNumber BigNumber::operator++()
 {
-	BigNumber sum(1);
-	sum += *this;
-	//*(this->digits) = *(sum.digits);
+	this->setDigits((*this + 1).digits);
 	return *this;
 }
 
-BigNumber BigNumber::operator++(int)
+BigNumber BigNumber::operator++(int num)
 {
-     BigNumber copy(*this);
-     ++(*this);
-     return copy;
+	BigNumber copy(*this);
+
+	operator++();
+
+    return copy;
 }
 
 BigNumber BigNumber::operator+=(BigNumber otherNumber)
 {
-	BigNumber sum = otherNumber + *this;
-	*digits = *(sum.digits);
+	setDigits((otherNumber + *this).digits);
 	return *this;
 }
 
@@ -123,6 +128,9 @@ bool BigNumber::operator>(BigNumber other)
 
 bool BigNumber::operator==(BigNumber other)
 {
+	if (this == &other)
+		return true;
+
 	bool equal = true;
 	int i = 0;
 
@@ -134,6 +142,12 @@ bool BigNumber::operator==(BigNumber other)
 	while (i <= MAX_DIGITS-1 && equal);
 
 	return equal;
+}
+
+void BigNumber::setDigits(int newDigits[MAX_DIGITS])
+{
+	for (int i = 0; i <= MAX_DIGITS - 1; i++)
+		digits[i] = newDigits[i];
 }
 
 ostream& operator<<(ostream& out, BigNumber toPrint) //prints the value of this BigNumber
