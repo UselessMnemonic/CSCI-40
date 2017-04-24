@@ -35,6 +35,7 @@ public:
 	bool      operator<(BigNumber); //checks to see if this BigNumber is less than another
 	bool      operator>(BigNumber); //checks to see if this BigNumber is greater than another
 	bool      operator==(BigNumber); //checks to see if BigNumbers are equal
+
 private:
 	void setDigits(int[MAX_DIGITS]); //sets this number's digit array
 	int digits[MAX_DIGITS]; //stores the value of BigNumber object

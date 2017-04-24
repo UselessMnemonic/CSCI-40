@@ -73,21 +73,23 @@ BigNumber BigNumber::operator+(BigNumber otherNumber) //returns a BigNumber from
 
 BigNumber BigNumber::operator++()
 {
+	//set this object's digits to those of the sum of this number and 1
 	this->setDigits((*this + 1).digits);
-	return *this;
+	return *this; //then return
 }
 
 BigNumber BigNumber::operator++(int num)
 {
-	BigNumber copy(*this);
+	BigNumber copy(*this); //must return a copt of the current value
 
-	operator++();
+	operator++(); //call preincrement 
 
-    return copy;
+    return copy; //return original value
 }
 
 BigNumber BigNumber::operator+=(BigNumber otherNumber)
 {
+	//set this object's digits to those of other number
 	setDigits((otherNumber + *this).digits);
 	return *this;
 }

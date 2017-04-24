@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigNumber.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="BigNumberTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BigNumber.h" />
