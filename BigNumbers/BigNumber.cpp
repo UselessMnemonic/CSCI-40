@@ -1,8 +1,6 @@
 /* Authored by Christopher Madrigal
 1 March 2017
-
 Big Number layout
-
 int[0] -> first digit (ones)
 int[1] -> second digit (tens)
 int[2] -> third digit (hundreds)
@@ -10,7 +8,6 @@ int[2] -> third digit (hundreds)
 .
 .
 int[MAX_DIGITS-1] -> last digit
-
 */
 
 #include "BigNumber.h"
@@ -173,8 +170,15 @@ istream& operator>>(istream& in, BigNumber& toSave) //pasrses value from cin int
 {
 	int i = MAX_DIGITS-1; //start our counter at MAX_DIGITS-1 for index
 
-	string numString; //string to store user input
-	in >> numString; //get the user input
+	string numString = ""; //string to store user input
+	//get the user input
+	while(isspace(in.peek()))
+		in.get();
+	//get only valid numbers
+	while(in.peek() >= '0' && in.peek() <= '9')
+		numString = numString + (char)in.get();
+	//flush the rest of the input
+	in.ignore(INT_MAX, '\n');
 
 	long numberStartPosition = numString.length() - 1; //index for the start of the number is the same as the length of the number minus 1
 
@@ -191,4 +195,3 @@ istream& operator>>(istream& in, BigNumber& toSave) //pasrses value from cin int
 	}
 	return in; //return the input stream for chain extractions
 }
-
