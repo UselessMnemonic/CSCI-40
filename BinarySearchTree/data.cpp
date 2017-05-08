@@ -1,3 +1,4 @@
+//Christopher Madrigal
 #include "Data.h"
 int itemClass::Key() const//"int" matches the typedef of keytype in BST.h
     {

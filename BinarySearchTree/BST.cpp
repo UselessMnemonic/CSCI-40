@@ -2,22 +2,23 @@
 
 // *********************************************************
 // Implementation file BST.cpp.
+// Christopher Madrigal
 // *********************************************************
 #include "BST.h" // binary search tree header file
 #include <stddef.h> // definition of NULL
 
 struct treeNode
 { treeItemType Item;
-ptrType LChildPtr, RChildPtr;
+ptrType ParentPtr, LChildPtr, RChildPtr;
 
-// constructor:
-treeNode(const treeItemType& NodeItem, ptrType L,
+// constructor (added prtType P for parent):
+treeNode(const treeItemType& NodeItem, ptrType P, ptrType L,
 ptrType R);
 }; // end struct
 
-treeNode::treeNode(const treeItemType& NodeItem, ptrType L, 
+treeNode::treeNode(const treeItemType& NodeItem, ptrType P, ptrType L, 
 ptrType R): Item(NodeItem), 
-LChildPtr(L), RChildPtr(R)
+ParentPtr(P), LChildPtr(L), RChildPtr(R)
 {
 } // end constructor
 
@@ -43,7 +44,7 @@ return bool(Root == NULL);
 void bstClass::SearchTreeInsert(const treeItemType& NewItem,
 bool& Success)
 {
-InsertItem(Root, NewItem, Success);
+	InsertItem(Root, NULL, NewItem, Success);
 } // end SearchTreeInsert
 
 void bstClass::SearchTreeDelete(keyType SearchKey,
@@ -74,7 +75,7 @@ void bstClass::PostorderTraverse(functionType Visit)
 Postorder(Root, Visit);
 } // end PostorderTraverse
 
-void bstClass::InsertItem(ptrType& TreePtr, 
+void bstClass::InsertItem(ptrType& TreePtr, ptrType parentPtr, 
 const treeItemType& NewItem,
 bool& Success)
 {
@@ -82,7 +83,7 @@ if (TreePtr == NULL)
     { // position of insertion found; insert after leaf
 
     // create a new node
-    TreePtr = new treeNode(NewItem, NULL, NULL);
+    TreePtr = new treeNode(NewItem, parentPtr, NULL, NULL);
 
     // was allocation successful?
     Success = bool(TreePtr != NULL);
@@ -91,10 +92,10 @@ if (TreePtr == NULL)
 // else search for the insertion position
 else if (NewItem.Key() < TreePtr->Item.Key())
     // search the left subtree
-    InsertItem(TreePtr->LChildPtr, NewItem, Success);
+	InsertItem(TreePtr->LChildPtr, TreePtr, NewItem, Success);
 
 else // search the right subtree
-    InsertItem(TreePtr->RChildPtr, NewItem, Success);
+    InsertItem(TreePtr->RChildPtr, TreePtr, NewItem, Success);
 } // end InsertItem
 
 void bstClass::DeleteItem(ptrType& TreePtr,
@@ -187,6 +188,23 @@ if (TreePtr == NULL)
 else if (SearchKey == TreePtr->Item.Key())
     { // item is in the root of some subtree
     TreeItem = TreePtr->Item;
+
+	// print the parent and child nodes, if they exist
+	if(TreePtr->ParentPtr != NULL)
+		cout << "Parent Node: " << TreePtr->ParentPtr->Item.GetData() << endl;
+	else
+		cout << "No Parent Node (root)" << endl;
+
+	if(TreePtr->LChildPtr != NULL)
+		cout << "Left Child Node: " << TreePtr->LChildPtr->Item.GetData() << endl;
+	else
+		cout << "No Left Child" << endl;
+
+	if(TreePtr->RChildPtr != NULL)
+		cout << "Right Child Node: " << TreePtr->RChildPtr->Item.GetData() << endl;
+	else
+		cout << "No Right Child" << endl;
+
     Success = true;
     }
 
@@ -197,6 +215,7 @@ else if (SearchKey < TreePtr->Item.Key())
 else // search the right subtree
     RetrieveItem(TreePtr->RChildPtr, SearchKey, TreeItem,Success);
 } // end RetrieveItem
+
 bstClass& bstClass::operator=(const bstClass& Rhs)
 {
 if (this != &Rhs)
@@ -212,7 +231,7 @@ ptrType& NewTreePtr) const
 // preorder traversal
 if (TreePtr != NULL)
     { // copy node
-    NewTreePtr = new treeNode(TreePtr->Item, NULL, NULL);
+	NewTreePtr = new treeNode(TreePtr->Item, TreePtr->ParentPtr, NULL, NULL);
     CopyTree(TreePtr->LChildPtr, NewTreePtr->LChildPtr);
     CopyTree(TreePtr->RChildPtr, NewTreePtr->RChildPtr);
     } // end if

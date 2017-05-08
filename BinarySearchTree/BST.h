@@ -2,6 +2,7 @@
 // Header file BST.h for the ADT binary search tree.
 // Assumption: A tree contains at most one item with a given
 // search key at any time.
+// Christopher Madrigal
 // *********************************************************
 #include <iostream>
 using namespace std;
@@ -87,6 +88,7 @@ virtual bstClass& operator=(const bstClass& Rhs);
 
 protected:
 void InsertItem(ptrType& TreePtr,
+ptrType parentPtr,
 const treeItemType& NewItem,
 bool& Success);
 // Recursively inserts an item into a binary search tree.

@@ -1,5 +1,6 @@
 //Test program for binary search tree.
 //Note the includes at the beginning of each file.
+//Christopher Madrigal
 
 #include "BST.h"//Binary search tree header file.
 

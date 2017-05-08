@@ -1,3 +1,4 @@
+//Christopher Madrigal
 #include <string>
 using namespace std;
 class itemClass
