@@ -98,7 +98,7 @@ else // search the right subtree
     InsertItem(TreePtr->RChildPtr, TreePtr, NewItem, Success);
 } // end InsertItem
 
-void bstClass::DeleteItem(ptrType& TreePtr,
+void bstClass::DeleteItem(ptrType& TreePtr, 
 keyType SearchKey,
 bool& Success)
 // Calls: DeleteNodeItem.
@@ -142,6 +142,7 @@ if ( (NodePtr->LChildPtr == NULL) && (NodePtr->RChildPtr == NULL) )
 else if (NodePtr->LChildPtr == NULL)
     { DelPtr = NodePtr;
     NodePtr = NodePtr->RChildPtr;
+	NodePtr->ParentPtr = DelPtr->ParentPtr;
     DelPtr->RChildPtr = NULL;
     delete DelPtr;
     } // end if no left child
@@ -150,6 +151,7 @@ else if (NodePtr->LChildPtr == NULL)
 else if (NodePtr->RChildPtr == NULL)
     { DelPtr = NodePtr;
     NodePtr = NodePtr->LChildPtr;
+	NodePtr->ParentPtr = DelPtr->ParentPtr;
     DelPtr->LChildPtr = NULL;
     delete DelPtr;
     } // end if no right child
@@ -157,24 +159,28 @@ else if (NodePtr->RChildPtr == NULL)
 // there are two children:
 // retrieve and delete the inorder successor
 else
-    { ProcessLeftmost(NodePtr->RChildPtr, ReplacementItem);
-    NodePtr->Item = ReplacementItem;
+    { 
+		ptrType parent = NodePtr->ParentPtr;
+		ProcessLeftmost(NodePtr->RChildPtr, ReplacementItem);
+		NodePtr->Item = ReplacementItem;
+		NodePtr->ParentPtr = parent;
     } // end if two children
 } // end DeleteNodeItem
 
 void bstClass::ProcessLeftmost(ptrType& NodePtr,
-treeItemType& TreeItem)
+	treeItemType& TreeItem)
 {
-if (NodePtr->LChildPtr == NULL)
-    { TreeItem = NodePtr->Item;
-    ptrType DelPtr = NodePtr;
-    NodePtr = NodePtr->RChildPtr;
-    DelPtr->RChildPtr = NULL; // defense
-    delete DelPtr;
-    }
+	if (NodePtr->LChildPtr == NULL)
+	{
+		TreeItem = NodePtr->Item;
+		ptrType DelPtr = NodePtr;
+		NodePtr = NodePtr->RChildPtr;
+		DelPtr->RChildPtr = NULL; // defense
+		delete DelPtr;
+	}
 
-else 
-    ProcessLeftmost(NodePtr->LChildPtr, TreeItem);
+	else
+		ProcessLeftmost(NodePtr->LChildPtr, TreeItem);
 } // end ProcessLeftmost
 
 void bstClass::RetrieveItem(ptrType TreePtr,
